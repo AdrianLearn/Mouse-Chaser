@@ -6,9 +6,17 @@ const playerSprite = "https://s1.piq.land/2012/08/03/paZnmbRnkMj8cyBcesOXhvdl_40
 function startGame() {
   if (progressBar.value === 0) {
     progressBar.value = 100;
+    score.innerHTML = 0;
     Object.assign(player, { x: canvas.width / 2, y: canvas.height / 2 });
     requestAnimationFrame(drawScene);
   }
+}
+
+function increaseScore() {
+  let gameScore = score.innerHTML;
+  gameScore++;
+  score.innerHTML = gameScore;
+  score = document.getElementById("score");
 }
 
 function distanceBetween(sprite1, sprite2) {
@@ -72,6 +80,7 @@ let enemies = [
   new Enemy(0, 200, 10, "rgba(250, 210, 70, 0.6)", 0.008),
   new Enemy(400, 400, 15, "rgba(0, 200, 250, 0.6)", 0.008),
 ];
+let scarecrow;
 
 let mouse = { x: 0, y: 0 };
 document.body.addEventListener("mousemove", updateMouse);
@@ -80,8 +89,6 @@ function updateMouse(event) {
   mouse.x = event.clientX - left;
   mouse.y = event.clientY - top;
 }
-
-// TODO function start game here
 
 function moveToward(leader, follower, speed) {
   follower.x += (leader.x - follower.x) * speed;
@@ -105,6 +112,7 @@ function pushOff(c1, c2) {
 function updateScene() {
   moveToward(mouse, player, player.speed);
   player.checkBoundary();
+  increaseScore;
   enemies.forEach(enemy => moveToward(player, enemy, enemy.speed));
   for (let i = 0; i < enemies.length; i++) {
     for (let j = i+1; j < enemies.length; j++) {
