@@ -53,7 +53,6 @@ if(gameScore%100===0){
 function random(range){
   return Math.floor(Math.random()*range);
 
-
 }
 function randomDec(range){
   return (Math.random()*range);
@@ -150,7 +149,7 @@ function updateScene() {
     enemies.forEach(enemy => enemy.draw());
     console.log("yes");
   }
-  enemies.forEach(enemy => moveToward(player, enemy, enemy.speed));
+  enemies.forEach(enemy => moveToward(scarecrow || player, enemy, enemy.speed));
   for (let i = 0; i < enemies.length; i++) {
     for (let j = i+1; j < enemies.length; j++) {
       pushOff(enemies[i], enemies[j]);
@@ -161,6 +160,13 @@ function updateScene() {
       progressBar.value -= 2;
     }
   });
+   if (scarecrow) {
+    scarecrow.draw();
+    scarecrow.ttl--;
+    if (scarecrow.ttl < 0) {
+      scarecrow = undefined;
+    }
+  }
 }
 
 function clearBackground() {
@@ -183,23 +189,12 @@ function drawScene() {
   }
 }
 
-function adjust() {
-  const characters = [player, ...enemies];
-  for (let i = 0; i < characters.length; i++) {
-    for (let j = i + 1; j < characters.length; j++) {
-      pushOff(characters[i], characters[j]);
-    }
-  }
-}
-
-function keyPressed() {
-  if (key === " ") {
+canvas.addEventListener("dblclick", () => {
     if (!scarecrow) {
-      scarecrow = new Character(player.x, player.y, "white", 10, 0);
-      scarecrow.ttl = frameRate() * 5;
+      scarecrow = new Player(player.x, player.y, 10, "lemonchiffon", 0.05);
+      scarecrow.ttl = 300;
     }
-  }
-}
+});
 
 canvas.addEventListener("click", startGame);
 requestAnimationFrame(drawScene);
