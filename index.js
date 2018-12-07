@@ -79,6 +79,7 @@ let enemies = [
   new Enemy(0, 200, 10, "rgba(250, 210, 70, 0.6)", 0.008),
   new Enemy(400, 400, 15, "rgba(0, 200, 250, 0.6)", 0.008),
 ];
+let scarecrow;
 
 let mouse = { x: 0, y: 0 };
 document.body.addEventListener("mousemove", updateMouse);
