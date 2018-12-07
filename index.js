@@ -182,6 +182,7 @@ function drawScene() {
   updateScene();
   if (progressBar.value <= 0) {
     ctx.font = "30px Arial";
+    ctx.fillstyle = "white";
     ctx.fillText(`You got spherically terminated`, (canvas.width/4)-35, canvas.height / 2);
         ctx.fillText(`Click to revive`, (canvas.width/3)+25, (canvas.height / 2)-30);
   } else {
