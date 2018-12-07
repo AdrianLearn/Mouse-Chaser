@@ -73,7 +73,7 @@ function moveToward(leader, follower, speed) {
 }else {
   follower.x = canvas.width-1;
 }
-}
+
   follower.y += (leader.y - follower.y) * speed;
 }
 
