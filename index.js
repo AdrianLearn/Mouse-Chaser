@@ -1,13 +1,22 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 const progressBar = document.querySelector("progress");
+let score = document.getElementById("score");
 
 function startGame() {
   if (progressBar.value === 0) {
     progressBar.value = 100;
+    score.innerHTML = 0;
     Object.assign(player, { x: canvas.width / 2, y: canvas.height / 2 });
     requestAnimationFrame(drawScene);
   }
+}
+
+function increaseScore() {
+  let gameScore = score.innerHTML;
+  gameScore++;
+  score.innerHTML = gameScore;
+  score = document.getElementById("score");
 }
 
 function distanceBetween(sprite1, sprite2) {
@@ -79,8 +88,6 @@ function updateMouse(event) {
   mouse.y = event.clientY - top;
 }
 
-// TODO function start game here
-
 function moveToward(leader, follower, speed) {
   follower.x += (leader.x - follower.x) * speed;
   follower.y += (leader.y - follower.y) * speed;
@@ -103,6 +110,7 @@ function pushOff(c1, c2) {
 function updateScene() {
   moveToward(mouse, player, player.speed);
   player.checkBoundary();
+  increaseScore;
   enemies.forEach(enemy => moveToward(player, enemy, enemy.speed));
   for (let i = 0; i < enemies.length; i++) {
     for (let j = i+1; j < enemies.length; j++) {
