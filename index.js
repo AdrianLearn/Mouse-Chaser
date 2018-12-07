@@ -26,6 +26,20 @@ class Sprite {
     ctx.fill();
     ctx.stroke();
   }
+  checkBoundary() {
+  if (this.x < 0) {
+    this.x = 0;
+  }
+  if (this.x + this.radius > canvas.width) {
+    this.x = canvas.width - this.radius;
+  }
+  if (this.y < 0) {
+    this.y = 0;
+  }
+  if (this.y + this.radius > canvas.height) {
+    this.y = canvas.height - this.radius;
+  }
+}
 }
 
 class Player extends Sprite {
@@ -88,6 +102,7 @@ function pushOff(c1, c2) {
 
 function updateScene() {
   moveToward(mouse, player, player.speed);
+  player.checkBoundary();
   enemies.forEach(enemy => moveToward(player, enemy, enemy.speed));
   for (let i = 0; i < enemies.length; i++) {
     for (let j = i+1; j < enemies.length; j++) {
@@ -113,7 +128,7 @@ function drawScene() {
   updateScene();
   if (progressBar.value <= 0) {
     ctx.font = "30px Arial";
-    ctx.fillText("Game over, click to play again", 0, canvas.height / 2);
+    ctx.fillText("Game over, click to play again", canvas.width/4, canvas.height / 2);
   } else {
     requestAnimationFrame(drawScene);
   }
