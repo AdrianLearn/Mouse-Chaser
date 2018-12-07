@@ -1,6 +1,7 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 const progressBar = document.querySelector("progress");
+const playerSprite = "https://s1.piq.land/2012/08/03/paZnmbRnkMj8cyBcesOXhvdl_400x400.png";
 
 function startGame() {
   if (progressBar.value === 0) {
@@ -45,8 +46,9 @@ class Sprite {
 class Player extends Sprite {
   constructor(x, y, radius, color, speed) {
     super();
+
     this.image = new Image();
-    this.image.src = "https://img.rankedboost.com/wp-content/uploads/2016/08/Pokemon-Go-Razz-Berry.png";
+    this.image.src = playerSprite;
     Object.assign(this, { x, y, radius, color, speed });
   }
   draw() {
@@ -120,7 +122,6 @@ function clearBackground() {
   ctx.fillStyle = "lightgreen";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
-
 function drawScene() {
   clearBackground();
   player.draw();
@@ -128,7 +129,9 @@ function drawScene() {
   updateScene();
   if (progressBar.value <= 0) {
     ctx.font = "30px Arial";
-    ctx.fillText("Game over, click to play again", canvas.width/4, canvas.height / 2);
+    ctx.fillStyle = "red";
+    ctx.fillText(`You got mauled to death by Rhyhorn`, (canvas.width/4)-35, canvas.height / 2);
+    ctx.fillText(`Click to revive`, (canvas.width/3)+25, (canvas.height / 2)-30);
   } else {
     requestAnimationFrame(drawScene);
   }
