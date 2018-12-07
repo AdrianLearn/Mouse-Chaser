@@ -10,14 +10,12 @@ function startGame() {
   if (progressBar.value === 0) {
     progressBar.value = 100;
     score.innerHTML = 0;
-    enemies.length = 5;
+    enemies.length = 3;
     gameScore = 0;
     enemies = [
       new Enemy(80, 200, 20, "rgba(250, 0, 50, 0.8)", 0.02),
       new Enemy(200, 250, 17, "rgba(200, 100, 0, 0.7)", 0.01),
       new Enemy(150, 180, 22, "rgba(50, 10, 70, 0.5)", 0.002),
-      new Enemy(0, 200, 10, "rgba(250, 210, 70, 0.6)", 0.008),
-      new Enemy(400, 400, 15, "rgba(0, 200, 250, 0.6)", 0.008),
     ];
     Object.assign(player, { x: canvas.width / 2, y: canvas.height / 2 });
     requestAnimationFrame(drawScene);
@@ -48,11 +46,13 @@ function haveCollided(sprite1, sprite2) {
 }
 function addEnemy(){
 if(gameScore%100===0){
-  enemies.push(new Enemy(random(800),random(600),13,getRandomColor(),randomDec(.06)));
+  enemies.push(new Enemy(random(800),random(600),getRandomArbitrary(5,15),getRandomColor(),randomDec(.06)));
 }
 function random(range){
   return Math.floor(Math.random()*range);
-
+}
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
 }
 function randomDec(range){
   return (Math.random()*range);
@@ -145,10 +145,6 @@ function updateScene() {
   moveToward(mouse, player, player.speed);
   player.checkBoundary();
   increaseScore();
-  if (gameScore % 200 == 0) {
-    enemies.forEach(enemy => enemy.draw());
-    console.log("yes");
-  }
   enemies.forEach(enemy => moveToward(scarecrow || player, enemy, enemy.speed));
   for (let i = 0; i < enemies.length; i++) {
     for (let j = i+1; j < enemies.length; j++) {
@@ -170,7 +166,6 @@ function updateScene() {
 }
 
 function clearBackground() {
-  ctx.fillStyle = "lightgreen";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
@@ -182,7 +177,7 @@ function drawScene() {
   updateScene();
   if (progressBar.value <= 0) {
     ctx.font = "30px Arial";
-    ctx.fillstyle = "white";
+    ctx.fillStyle = "white";
     ctx.fillText(`You got spherically terminated`, (canvas.width/4)-35, canvas.height / 2);
         ctx.fillText(`Click to revive`, (canvas.width/3)+25, (canvas.height / 2)-30);
   } else {
