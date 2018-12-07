@@ -68,12 +68,11 @@ function updateMouse(event) {
 // TODO function start game here
 
 function moveToward(leader, follower, speed) {
-  if(follower.x<canvas.width){
+if(follower.x < canvas.width){
   follower.x += (leader.x - follower.x) * speed;
-}else {
+}else{
   follower.x = canvas.width-1;
 }
-
   follower.y += (leader.y - follower.y) * speed;
 }
 
