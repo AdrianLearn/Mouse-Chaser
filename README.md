@@ -17,4 +17,5 @@ Game Controls:
     - Restarts game if the game was over (health bar at 0)
   - Double mouse click:
     - Deploys a scarecrow (enemies chase after scarecrow instead of player for 5 seconds)
+
 Created by Caitilin Colina and Adrian Leung
