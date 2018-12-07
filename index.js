@@ -4,17 +4,36 @@ const progressBar = document.querySelector("progress");
 let score = document.getElementById("score");
 const playerSprite = "https://s1.piq.land/2012/08/03/paZnmbRnkMj8cyBcesOXhvdl_400x400.png";
 
+let gameScore = score.innerHTML;
+
 function startGame() {
   if (progressBar.value === 0) {
     progressBar.value = 100;
     score.innerHTML = 0;
+    enemies.length = 5;
+    gameScore = 0;
+    enemies = [
+      new Enemy(80, 200, 20, "rgba(250, 0, 50, 0.8)", 0.02),
+      new Enemy(200, 250, 17, "rgba(200, 100, 0, 0.7)", 0.01),
+      new Enemy(150, 180, 22, "rgba(50, 10, 70, 0.5)", 0.002),
+      new Enemy(0, 200, 10, "rgba(250, 210, 70, 0.6)", 0.008),
+      new Enemy(400, 400, 15, "rgba(0, 200, 250, 0.6)", 0.008),
+    ];
     Object.assign(player, { x: canvas.width / 2, y: canvas.height / 2 });
     requestAnimationFrame(drawScene);
+
   }
 }
-
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
 function increaseScore() {
-  let gameScore = score.innerHTML;
+
   gameScore++;
   score.innerHTML = gameScore;
   score = document.getElementById("score");
@@ -27,7 +46,19 @@ function distanceBetween(sprite1, sprite2) {
 function haveCollided(sprite1, sprite2) {
   return distanceBetween(sprite1, sprite2) < sprite1.radius + sprite2.radius;
 }
+function addEnemy(){
+if(gameScore%100===0){
+  enemies.push(new Enemy(random(800),random(600),13,getRandomColor(),randomDec(.06)));
+}
+function random(range){
+  return Math.floor(Math.random()*range);
 
+
+}
+function randomDec(range){
+  return (Math.random()*range);
+}
+}
 class Sprite {
   draw() {
     ctx.fillStyle = this.color;
@@ -70,6 +101,7 @@ let player = new Player(250, 150, 10, "black", 0.07);
 class Enemy extends Sprite {
   constructor(x, y, radius, color, speed) {
     super();
+
     Object.assign(this, { x, y, radius, color, speed });
   }
 }
@@ -114,6 +146,10 @@ function updateScene() {
   moveToward(mouse, player, player.speed);
   player.checkBoundary();
   increaseScore();
+  if (gameScore % 200 == 0) {
+    enemies.forEach(enemy => enemy.draw());
+    console.log("yes");
+  }
   enemies.forEach(enemy => moveToward(player, enemy, enemy.speed));
   for (let i = 0; i < enemies.length; i++) {
     for (let j = i+1; j < enemies.length; j++) {
@@ -135,11 +171,12 @@ function clearBackground() {
 function drawScene() {
   clearBackground();
   player.draw();
+  addEnemy();
   enemies.forEach(enemy => enemy.draw());
   updateScene();
   if (progressBar.value <= 0) {
     ctx.font = "30px Arial";
-    ctx.fillText(`You got mauled to death by Rhyhorn`, (canvas.width/4)-35, canvas.height / 2);
+    ctx.fillText(`You got spherically terminated`, (canvas.width/4)-35, canvas.height / 2);
         ctx.fillText(`Click to revive`, (canvas.width/3)+25, (canvas.height / 2)-30);
   } else {
     requestAnimationFrame(drawScene);
