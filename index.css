@@ -8,11 +8,13 @@ progress {
 }
 
 h1 {
-  font: 50px "Brush Script MT";
+  font-size: 50px;
+  font-family: "Brush Script MT";
 }
 
 body {
   margin-top: 0;
   padding-left: 20px;
-  font: 30px "Comic Sans";
+  font-size: 30px;
+  font-family: "Comic Sans";
 }
