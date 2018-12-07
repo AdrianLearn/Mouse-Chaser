@@ -1,8 +1,7 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 const progressBar = document.querySelector("progress");
-const score = document.getElementById("score");
-const playerSprite = "https://s1.piq.land/2012/08/03/paZnmbRnkMj8cyBcesOXhvdl_400x400.png";
+let score = document.getElementById("score");
 
 function startGame() {
   if (progressBar.value === 0) {
@@ -36,28 +35,13 @@ class Sprite {
     ctx.fill();
     ctx.stroke();
   }
-  checkBoundary() {
-  if (this.x < 0) {
-    this.x = 0;
-  }
-  if (this.x + this.radius > canvas.width) {
-    this.x = canvas.width - this.radius;
-  }
-  if (this.y < 0) {
-    this.y = 0;
-  }
-  if (this.y + this.radius > canvas.height) {
-    this.y = canvas.height - this.radius;
-  }
-}
 }
 
 class Player extends Sprite {
   constructor(x, y, radius, color, speed) {
     super();
-
     this.image = new Image();
-    this.image.src = playerSprite;
+    this.image.src = "https://img.rankedboost.com/wp-content/uploads/2016/08/Pokemon-Go-Razz-Berry.png";
     Object.assign(this, { x, y, radius, color, speed });
   }
   draw() {
@@ -65,7 +49,7 @@ class Player extends Sprite {
   }
 }
 
-let player = new Player(250, 150, 10, "black", 0.07);
+let player = new Player(250, 150, 10, "lemonchiffon", 0.05);
 
 class Enemy extends Sprite {
   constructor(x, y, radius, color, speed) {
@@ -78,8 +62,8 @@ let enemies = [
   new Enemy(80, 200, 20, "rgba(250, 0, 50, 0.8)", 0.02),
   new Enemy(200, 250, 17, "rgba(200, 100, 0, 0.7)", 0.01),
   new Enemy(150, 180, 22, "rgba(50, 10, 70, 0.5)", 0.002),
-  new Enemy(0, 200, 10, "rgba(250, 210, 70, 0.6)", 0.008),
-  new Enemy(400, 400, 15, "rgba(0, 200, 250, 0.6)", 0.008),
+  new Enemy(0, 200, 10, "rgba(250, 210, 70, 0.6)", 0.015),
+  new Enemy(400, 400, 15, "rgba(0, 200, 250, 0.6)", 0.01),
 ];
 let scarecrow;
 
@@ -112,7 +96,6 @@ function pushOff(c1, c2) {
 
 function updateScene() {
   moveToward(mouse, player, player.speed);
-  player.checkBoundary();
   increaseScore();
   enemies.forEach(enemy => moveToward(player, enemy, enemy.speed));
   for (let i = 0; i < enemies.length; i++) {
@@ -131,19 +114,37 @@ function clearBackground() {
   ctx.fillStyle = "lightgreen";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
+
 function drawScene() {
   clearBackground();
   player.draw();
-  enemies.forEach(enemy => enemy.draw());
+  enemies.forEach(enemy => enemy.draw()); 
   updateScene();
   if (progressBar.value <= 0) {
     ctx.font = "30px Arial";
-    ctx.fillStyle = "red";
-    ctx.fillText(`You got mauled to death by Rhyhorn`, (canvas.width/4)-35, canvas.height / 2);
-    ctx.fillText(`Click to revive`, (canvas.width/3)+25, (canvas.height / 2)-30);
+    ctx.fillText("Game over, click to play again", canvas.width / 4, canvas.height / 2);
   } else {
     requestAnimationFrame(drawScene);
   }
 }
+
+function adjust() {
+  const characters = [player, ...enemies];
+  for (let i = 0; i < characters.length; i++) {
+    for (let j = i + 1; j < characters.length; j++) {
+      pushOff(characters[i], characters[j]);
+    }
+  }
+}
+
+function keyPressed() {
+  if (key === " ") {
+    if (!scarecrow) {
+      scarecrow = new Character(player.x, player.y, "white", 10, 0);
+      scarecrow.ttl = frameRate() * 5;
+    }
+  }
+}
+
 canvas.addEventListener("click", startGame);
 requestAnimationFrame(drawScene);
