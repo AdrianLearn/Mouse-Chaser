@@ -1,5 +1,5 @@
 # Dodge Ball
-CLick [here](https://adrianlearn.github.io/k-tah/index.html) to play.
+CLick [here](https://adrianlearn.github.io/Mouse-Chaser/index.html) to play.
 
 A project written for CMSI 185.
 Loosely based on the [K'Tah Project](https://github.com/lmucs/ktah).
