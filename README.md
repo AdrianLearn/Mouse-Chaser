@@ -16,4 +16,4 @@ Game Controls:
   - Double mouse click:
     - Deploys a scarecrow (enemies chase after scarecrow instead of player for 5 seconds)
 
-Created by Caitilin Colina and Adrian Leung
+Created by Adrian Leung and Catilin Colina
