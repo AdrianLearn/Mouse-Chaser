@@ -1,8 +1,6 @@
 # Dodge Ball
 CLick [here](https://adrianlearn.github.io/Mouse-Chaser/index.html) to play.
 
-A project written for CMSI 185.
-Loosely based on the [K'Tah Project](https://github.com/lmucs/ktah).
 The purpose of the game is to avoid the enemies that chase you. More enemies will appear over time, deploying a scarecrow will assist you. The score is based off time spent alive, so try to stay alive as long as possible.
   
 Game Components:
