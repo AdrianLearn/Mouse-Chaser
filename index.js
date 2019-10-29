@@ -255,13 +255,12 @@ function drawScene() {
   }
 }
 
-// EventListener to add a scarecrow decoy to the canvas for the enemies to follow
-canvas.addEventListener("dblclick", () => {
+canvas.addEventListener("dblclick", () => { // EventListener to add a scarecrow decoy to the canvas for the enemies to follow
     if (!scarecrow) {
       scarecrow = new Player(player.x, player.y, 10, "lemonchiffon", 0.05);
       scarecrow.ttl = 300;
     }
 });
-// EventListener to start the game if mouse is clicked
-canvas.addEventListener("click", startGame);
+
+canvas.addEventListener("click", startGame); // EventListener to start the game if mouse is clicked
 requestAnimationFrame(drawScene);
