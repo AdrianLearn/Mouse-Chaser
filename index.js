@@ -3,12 +3,12 @@
 * Author: Adrian Leung, Caitlin Colina
 * Date: December 8, 2018
 */
-const canvas = document.querySelector("canvas"); // Variable to get the canvas reference
-const ctx = canvas.getContext("2d"); // Canvas reference in context
+const canvas = document.querySelector("canvas");
+const ctx = canvas.getContext("2d");
 const progressBar = document.querySelector("progress"); // Reference to health bar
-let score = document.getElementById("score"); // Variable to display the current score of the player
+let score = document.getElementById("score");
 const playerSprite = "https://s1.piq.land/2012/08/03/paZnmbRnkMj8cyBcesOXhvdl_400x400.png"; // Const to store the player image
-let gameScore = score.innerHTML; // Variable to keep track of the game score
+let gameScore = score.innerHTML;
 
 /**
 * Function to start the game, resetting elements and initiating enemies
@@ -28,10 +28,7 @@ function startGame() {
     requestAnimationFrame(drawScene);
   }
 }
-/**
-* Function to return a random color
-* @return random color
-*/
+
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
   var color = '#';
@@ -50,16 +47,10 @@ function updateMouse(event) {
   mouse.y = event.clientY - top;
 }
 
-/**
-* Function to clear the background to restart the game
-*/
 function clearBackground() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-/**
-* Function to increase the score and update the score display
-*/
 function increaseScore() {
   gameScore++;
   score.innerHTML = gameScore;
@@ -85,33 +76,15 @@ function pushOff(c1, c2) {
   }
 }
 
-/**
-* Function to move the characters towards a different postiion
-* @param leader object to be followed
-* @param follower object to follow
-* @param speed the speed at which the follower will follow the leader
-*/
 function moveToward(leader, follower, speed) {
   follower.x += (leader.x - follower.x) * speed;
   follower.y += (leader.y - follower.y) * speed;
 }
 
-/**
-* Function to calculate the distance between two given sprite objects
-* @param sprite1
-* @param sprite2 two objects to calculate the distance between
-* @return the distance between the two sprites
-*/
 function distanceBetween(sprite1, sprite2) {
   return Math.hypot(sprite1.x - sprite2.x, sprite1.y - sprite2.y);
 }
 
-/**
-* Function to determine if the sprite objects have have collided
-* @param sprite1
-* @param sprite2 two objects to determine if the objects have collided
-* @return boolean value containing if the given objects have collided
-*/
 function haveCollided(sprite1, sprite2) {
   return distanceBetween(sprite1, sprite2) < sprite1.radius + sprite2.radius;
 }
@@ -123,15 +96,12 @@ function addEnemy(){
   if(gameScore%100===0){
     enemies.push(new Enemy(random(800),random(600),getRandomArbitrary(5,15),getRandomColor(),randomDec(.06)));
   }
-  // To return a random number from 0 to a number
   function random(range){
     return Math.floor(Math.random()*range);
   }
-  // To return a number between two parameters
   function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
   }
-  // To return a decimial from 0 to a number
   function randomDec(range){
     return (Math.random()*range);
   }
@@ -141,7 +111,6 @@ function addEnemy(){
 * Class Sprite to store characteristics of a sprite character
 */
 class Sprite {
-  // Method to draw the character
   draw() {
     ctx.fillStyle = this.color;
     ctx.beginPath();
@@ -149,8 +118,6 @@ class Sprite {
     ctx.fill();
     ctx.stroke();
   }
-
-  // Method to check if the object is within the bounderies of the canvas
   checkBoundary() {
   if (this.x < 0) {
     this.x = 0;
@@ -171,14 +138,12 @@ class Sprite {
 * Subclass for the player
 */
 class Player extends Sprite {
-  // Constructor for class containing position, size, color and speed
   constructor(x, y, radius, color, speed) {
     super();
     this.image = new Image();
     this.image.src = playerSprite;
     Object.assign(this, { x, y, radius, color, speed });
   }
-  // Draw function to draw this character to the canvas
   draw() {
     ctx.drawImage(this.image, this.x, this.y, 25, 30);
   }
@@ -190,7 +155,6 @@ let player = new Player(250, 150, 10, "black", 0.07); // creating a new player
 * Subclass for the enemies
 */
 class Enemy extends Sprite {
-  // Constructor for class containing position, size, color and speed
   constructor(x, y, radius, color, speed) {
     super();
     Object.assign(this, { x, y, radius, color, speed });
@@ -204,7 +168,7 @@ class Enemy extends Sprite {
   new Enemy(0, 200, 10, "rgba(250, 210, 70, 0.6)", 0.008),
   new Enemy(400, 400, 15, "rgba(0, 200, 250, 0.6)", 0.008),
 ];
-let scarecrow; // Scarecrow to act as a decoy for the player
+let scarecrow;
 
 let mouse = { x: 0, y: 0 }; // mouse object containing coordinates of the mouse location on the canvas
 document.body.addEventListener("mousemove", updateMouse);
@@ -255,12 +219,12 @@ function drawScene() {
   }
 }
 
-canvas.addEventListener("dblclick", () => { // EventListener to add a scarecrow decoy to the canvas for the enemies to follow
+canvas.addEventListener("dblclick", () => {
     if (!scarecrow) {
       scarecrow = new Player(player.x, player.y, 10, "lemonchiffon", 0.05);
       scarecrow.ttl = 300;
     }
 });
 
-canvas.addEventListener("click", startGame); // EventListener to start the game if mouse is clicked
+canvas.addEventListener("click", startGame); 
 requestAnimationFrame(drawScene);
